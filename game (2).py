@@ -136,7 +136,7 @@ def add_celulas_inicais(tabuleiro):
         tabuleiro_cheio = True
     return tabuleiro, tabuleiro_cheio
 
-# desenhando o tabuleirodraw background for the board
+# desenhando o tabuleiro
 def gerar_tabuleiro():
     pygame.draw.rect(tela, cores['fundo_tela'], [0, 0, 400, 400], 0, 10)
     score_text = fonte.render(f'Pontuação: {pontuacao}', True, 'black')
@@ -144,7 +144,7 @@ def gerar_tabuleiro():
 
 def gerar_celulas(board):
     global complexidades
-    # valores brutos, depois vou adicionar
+    # valores brutos, depois vou refatorar
     for i in range(tamanho_tabuleiro):
         for j in range(tamanho_tabuleiro):
             celula = board[i][j]
