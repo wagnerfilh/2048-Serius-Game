@@ -2,13 +2,13 @@ import pygame
 
 def iniciar_explicacao():
     pygame.init()
-    largura, altura = 850, 300
+    largura, altura = 1090, 290
     tela = pygame.display.set_mode([largura, altura])
     pygame.display.set_caption('Extras')
     timer = pygame.time.Clock()
     fps = 60
     tela.fill('gray')
-    fonte = pygame.font.SysFont('Verdana', 16)
+    fonte = pygame.font.SysFont('Verdana', 20)
     rodar = True
 
     textos = [
