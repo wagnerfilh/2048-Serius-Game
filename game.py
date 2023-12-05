@@ -50,74 +50,75 @@ def gerar_tela_game_over():
 def realizar_jogada(direcao, tabuleiro):
     global pontuacao
     merged = [ [False for i in range(tamanho_tabuleiro)] for j in range(tamanho_tabuleiro) ]
-    if direcao == 'UP':
-        for i in range(tamanho_tabuleiro):
-            for j in range(tamanho_tabuleiro):
-                nova_posicao = 0
-                if i > 0:
-                    for q in range(i):
-                        if tabuleiro[q][j] == 0: nova_posicao += 1
+    match direcao:
+        case 'UP':
+            for i in range(tamanho_tabuleiro):
+                for j in range(tamanho_tabuleiro):
+                    nova_posicao = 0
+                    if i > 0:
+                        for q in range(i):
+                            if tabuleiro[q][j] == 0: nova_posicao += 1
+                        if nova_posicao > 0:
+                            tabuleiro[i - nova_posicao][j] = tabuleiro[i][j]
+                            tabuleiro[i][j] = 0
+                        if tabuleiro[i - nova_posicao - 1][j] == tabuleiro[i - nova_posicao][j] and not merged[i - nova_posicao][j] \
+                                and not merged[i - nova_posicao - 1][j]:
+                            tabuleiro[i - nova_posicao - 1][j] *= 2
+                            pontuacao += tabuleiro[i - nova_posicao - 1][j]
+                            tabuleiro[i - nova_posicao][j] = 0
+                            merged[i - nova_posicao - 1][j] = True
+
+        case 'DOWN':
+            for i in range(3):
+                for j in range(tamanho_tabuleiro):
+                    nova_posicao = 0
+                    for q in range(i + 1):
+                        if tabuleiro[3 - q][j] == 0: nova_posicao += 1
                     if nova_posicao > 0:
-                        tabuleiro[i - nova_posicao][j] = tabuleiro[i][j]
+                        tabuleiro[2 - i + nova_posicao][j] = tabuleiro[2 - i][j]
+                        tabuleiro[2 - i][j] = 0
+                    if 3 - i + nova_posicao <= 3:
+                        if tabuleiro[2 - i + nova_posicao][j] == tabuleiro[3 - i + nova_posicao][j] and not merged[3 - i + nova_posicao][j] \
+                                and not merged[2 - i + nova_posicao][j]:
+                            tabuleiro[3 - i + nova_posicao][j] *= 2
+                            pontuacao += tabuleiro[3 - i + nova_posicao][j]
+                            tabuleiro[2 - i + nova_posicao][j] = 0
+                            merged[3 - i + nova_posicao][j] = True
+
+        case 'LEFT':
+            for i in range(tamanho_tabuleiro):
+                for j in range(tamanho_tabuleiro):
+                    nova_posicao = 0
+                    for q in range(j):
+                        if tabuleiro[i][q] == 0:
+                            nova_posicao += 1
+                    if nova_posicao > 0:
+                        tabuleiro[i][j - nova_posicao] = tabuleiro[i][j]
                         tabuleiro[i][j] = 0
-                    if tabuleiro[i - nova_posicao - 1][j] == tabuleiro[i - nova_posicao][j] and not merged[i - nova_posicao][j] \
-                            and not merged[i - nova_posicao - 1][j]:
-                        tabuleiro[i - nova_posicao - 1][j] *= 2
-                        pontuacao += tabuleiro[i - nova_posicao - 1][j]
-                        tabuleiro[i - nova_posicao][j] = 0
-                        merged[i - nova_posicao - 1][j] = True
+                    if tabuleiro[i][j - nova_posicao] == tabuleiro[i][j - nova_posicao - 1] and not merged[i][j - nova_posicao - 1] \
+                            and not merged[i][j - nova_posicao]:
+                        tabuleiro[i][j - nova_posicao - 1] *= 2
+                        pontuacao += tabuleiro[i][j - nova_posicao - 1]
+                        tabuleiro[i][j - nova_posicao] = 0
+                        merged[i][j - nova_posicao - 1] = True
 
-    elif direcao == 'DOWN':
-        for i in range(3):
-            for j in range(tamanho_tabuleiro):
-                nova_posicao = 0
-                for q in range(i + 1):
-                    if tabuleiro[3 - q][j] == 0: nova_posicao += 1
-                if nova_posicao > 0:
-                    tabuleiro[2 - i + nova_posicao][j] = tabuleiro[2 - i][j]
-                    tabuleiro[2 - i][j] = 0
-                if 3 - i + nova_posicao <= 3:
-                    if tabuleiro[2 - i + nova_posicao][j] == tabuleiro[3 - i + nova_posicao][j] and not merged[3 - i + nova_posicao][j] \
-                            and not merged[2 - i + nova_posicao][j]:
-                        tabuleiro[3 - i + nova_posicao][j] *= 2
-                        pontuacao += tabuleiro[3 - i + nova_posicao][j]
-                        tabuleiro[2 - i + nova_posicao][j] = 0
-                        merged[3 - i + nova_posicao][j] = True
-
-    elif direcao == 'LEFT':
-        for i in range(tamanho_tabuleiro):
-            for j in range(tamanho_tabuleiro):
-                nova_posicao = 0
-                for q in range(j):
-                    if tabuleiro[i][q] == 0:
-                        nova_posicao += 1
-                if nova_posicao > 0:
-                    tabuleiro[i][j - nova_posicao] = tabuleiro[i][j]
-                    tabuleiro[i][j] = 0
-                if tabuleiro[i][j - nova_posicao] == tabuleiro[i][j - nova_posicao - 1] and not merged[i][j - nova_posicao - 1] \
-                        and not merged[i][j - nova_posicao]:
-                    tabuleiro[i][j - nova_posicao - 1] *= 2
-                    pontuacao += tabuleiro[i][j - nova_posicao - 1]
-                    tabuleiro[i][j - nova_posicao] = 0
-                    merged[i][j - nova_posicao - 1] = True
-
-    elif direcao == 'RIGHT':
-        for i in range(tamanho_tabuleiro):
-            for j in range(tamanho_tabuleiro):
-                nova_posicao = 0
-                for q in range(j):
-                    if tabuleiro[i][3 - q] == 0:
-                        nova_posicao += 1
-                if nova_posicao > 0:
-                    tabuleiro[i][3 - j + nova_posicao] = tabuleiro[i][3 - j]
-                    tabuleiro[i][3 - j] = 0
-                if tamanho_tabuleiro - j + nova_posicao <= 3:
-                    if tabuleiro[i][tamanho_tabuleiro - j + nova_posicao] == tabuleiro[i][3 - j + nova_posicao] and not merged[i][4 - j + nova_posicao] \
-                            and not merged[i][3 - j + nova_posicao]:
-                        tabuleiro[i][tamanho_tabuleiro - j + nova_posicao] *= 2
-                        pontuacao += tabuleiro[i][4 - j + nova_posicao]
-                        tabuleiro[i][3 - j + nova_posicao] = 0
-                        merged[i][tamanho_tabuleiro - j + nova_posicao] = True
+        case 'RIGHT':
+            for i in range(tamanho_tabuleiro):
+                for j in range(tamanho_tabuleiro):
+                    nova_posicao = 0
+                    for q in range(j):
+                        if tabuleiro[i][3 - q] == 0:
+                            nova_posicao += 1
+                    if nova_posicao > 0:
+                        tabuleiro[i][3 - j + nova_posicao] = tabuleiro[i][3 - j]
+                        tabuleiro[i][3 - j] = 0
+                    if tamanho_tabuleiro - j + nova_posicao <= 3:
+                        if tabuleiro[i][tamanho_tabuleiro - j + nova_posicao] == tabuleiro[i][3 - j + nova_posicao] and not merged[i][4 - j + nova_posicao] \
+                                and not merged[i][3 - j + nova_posicao]:
+                            tabuleiro[i][tamanho_tabuleiro - j + nova_posicao] *= 2
+                            pontuacao += tabuleiro[i][4 - j + nova_posicao]
+                            tabuleiro[i][3 - j + nova_posicao] = 0
+                            merged[i][tamanho_tabuleiro - j + nova_posicao] = True
     return tabuleiro
 
 def add_celulas_inicais(tabuleiro):
